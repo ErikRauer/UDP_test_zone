@@ -2,6 +2,7 @@ package UDP_Client;
 
 import java.io.*;
 import java.net.*;
+import java.nio.ByteBuffer;
 import java.util.*;
 
 public class QuoteClient_Test{
@@ -13,18 +14,13 @@ public class QuoteClient_Test{
 		DatagramPacket packet;
 		byte[] sendBuf = new byte[256];
 		
-		if (args.length != 1){
-			System.out.println("");
-			return;
-		}
-		
 		//Get a Datagram Socket
 		socket = new DatagramSocket();
 		
 		//Send Request
 		byte[] buf = new byte[256];
-		address = InetAddress.getByName(args[0]);
-		packet = new DatagramPacket(buf, buf.length, address, 4445);
+		address = InetAddress.getByName("10.30.2.13");
+		packet = new DatagramPacket(buf, buf.length, address, 8697);
 		socket.send(packet);
 		
 		//Get Response
@@ -32,8 +28,10 @@ public class QuoteClient_Test{
         socket.receive(packet);
 
 	    //Display Response
-        String received = new String(packet.getData(), 0, packet.getLength());
-        System.out.println("Quote of the Moment: " + received);
+        float receivedFloat = ByteBuffer.wrap(packet.getData()).getFloat();
+//      String received = new String(packet.getData(), 0, packet.getLength());
+//      System.out.println("Quote of the Moment: " + received);
+        System.out.println(receivedFloat);
     
         socket.close();
 	}
