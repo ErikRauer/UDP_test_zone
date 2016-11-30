@@ -2,11 +2,14 @@ import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.nio.ByteBuffer;
 import java.util.Date;
 
 public class Test_UDPThread extends Thread {
 	DatagramSocket socket;
 	BufferedReader in;
+	float info1 = 3.14159265359f;
+	float info2 = 4.20f;
 	
 	public Test_UDPThread() throws IOException {
 		this("Test_UDP");
@@ -14,7 +17,7 @@ public class Test_UDPThread extends Thread {
 	
 	public Test_UDPThread(String name) throws IOException {
 		super(name);
-		socket = new DatagramSocket(4445);
+		socket = new DatagramSocket(8697);
 		
 		try {
 			in = new BufferedReader(new FileReader("loot_drive.txt"));
@@ -30,12 +33,14 @@ public class Test_UDPThread extends Thread {
 			DatagramPacket packet = new DatagramPacket(buf, buf.length);
 			socket.receive(packet);
 		
-			String dString = null;
-			if (in == null)
-				dString = new Date().toString();
-			else
-				dString = getNextQuote();
-			buf = dString.getBytes();
+//			String dString = null;
+//			if (in == null)
+//				dString = new Date().toString();
+//			else
+//				dString = getNextQuote();
+//			buf = dString.getBytes();
+			
+			buf = ByteBuffer.allocate(10).putFloat(info1).array();
 		// Lines 32-37 chooses the server response
 		
 			InetAddress address = packet.getAddress();
@@ -48,6 +53,7 @@ public class Test_UDPThread extends Thread {
 		 }
 		socket.close();
 	}
+	
 	protected String getNextQuote() {
 		String returnValue;
 		try {
