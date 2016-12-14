@@ -40,7 +40,10 @@ public class Test_UDPThread extends Thread {
 //				dString = getNextQuote();
 //			buf = dString.getBytes();
 			
-			buf = ByteBuffer.allocate(10).putFloat(info1).array();
+			ByteBuffer buffer = ByteBuffer.allocate(10);
+			buffer.putFloat(info1);
+			buffer.putFloat(info2);
+			buf = buffer.array();
 		// Lines 32-37 chooses the server response
 		
 			InetAddress address = packet.getAddress();
