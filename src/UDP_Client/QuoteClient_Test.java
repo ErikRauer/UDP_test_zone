@@ -28,10 +28,13 @@ public class QuoteClient_Test{
         socket.receive(packet);
 
 	    //Display Response
-        float receivedFloat = ByteBuffer.wrap(packet.getData()).getFloat();
+        ByteBuffer wrap = ByteBuffer.wrap(packet.getData());
+		float receivedFloat = wrap.getFloat();
+		float receivedFloat2 = wrap.getFloat();
 //      String received = new String(packet.getData(), 0, packet.getLength());
 //      System.out.println("Quote of the Moment: " + received);
         System.out.println(receivedFloat);
+        System.out.println(receivedFloat2);
     
         socket.close();
 	}
